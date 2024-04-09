@@ -1,6 +1,6 @@
-# Microsoft-Rewards-Script
+# Microsoft-Rewards-Script 
+# (Added telegram notification support - not verbose)
 Automated Microsoft Rewards script, however this time using TypeScript, Cheerio and Playwright.
-
 Under development, however mainly for personal use!
 
 ## How to setup ##
