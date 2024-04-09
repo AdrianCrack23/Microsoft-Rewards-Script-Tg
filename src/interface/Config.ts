@@ -7,6 +7,7 @@ export interface Config {
     workers: Workers;
     searchSettings: SearchSettings;
     webhook: Webhook;
+    telegram: Telegram;
     saveFingerprint: boolean;
 }
 
@@ -26,6 +27,12 @@ export interface SearchDelay {
 export interface Webhook {
     enabled: boolean;
     url: string;
+}
+
+export interface Telegram {
+    enabled: boolean;
+    token: string;
+    chatid: string;
 }
 
 export interface Workers {
