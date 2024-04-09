@@ -25,5 +25,10 @@
     "webhook": {
         "enabled": false,
         "url": ""
+    },
+    "telegram": {
+        "enabled": true,
+        "token": "",
+        "chatid": ""
     }
 }
