@@ -15,6 +15,7 @@ import Activities from './functions/Activities'
 
 import { Account } from './interface/Account'
 
+import { sendTGMessage } from './util/Telegram'    //Telegram file
 // Main bot class
 export class MicrosoftRewardsBot {
     public log: typeof log
@@ -103,7 +104,7 @@ export class MicrosoftRewardsBot {
     private async runTasks(accounts: Account[]) {
         for (const account of accounts) {
             log('MAIN-WORKER', `Started tasks for account ${account.email}`)
-
+            exports.currentMail = account.email        //move the value to the other file
             // Desktop Searches, DailySet and More Promotions
             await this.Desktop(account)
 
@@ -116,6 +117,7 @@ export class MicrosoftRewardsBot {
             await this.Mobile(account)
 
             log('MAIN-WORKER', `Completed tasks for account ${account.email}`)
+            sendTGMessage();
         }
 
         log('MAIN-PRIMARY', 'Completed tasks for ALL accounts')
@@ -138,14 +140,17 @@ export class MicrosoftRewardsBot {
 
         const data = await this.browser.func.getDashboardData()
         log('MAIN-POINTS', `Current point count: ${data.userStatus.availablePoints}`)
+        exports.currentPoints = data.userStatus.availablePoints
 
         const earnablePoints = await this.browser.func.getEarnablePoints()
         this.collectedPoints = earnablePoints
+        exports.earnablePoints = earnablePoints
         log('MAIN-POINTS', `You can earn ${earnablePoints} points today`)
 
         // If runOnZeroPoints is false and 0 points to earn, don't continue
         if (!this.config.runOnZeroPoints && this.collectedPoints === 0) {
             log('MAIN', 'No points to earn and "runOnZeroPoints" is set to "false", stopping!')
+            exports.collectedPoints = this.collectedPoints
 
             // Close desktop browser
             return await this.closeBrowser(browser, account.email)
@@ -239,6 +244,7 @@ export class MicrosoftRewardsBot {
         // If the new earnable is 0, means we got all the points, else retract
         this.collectedPoints = earnablePoints === 0 ? this.collectedPoints : (this.collectedPoints - earnablePoints)
         log('MAIN-POINTS', `The script collected ${this.collectedPoints} points today`)
+        exports.collectedPoints = this.collectedPoints
 
         // Close mobile browser
         return await this.closeBrowser(browser, account.email)
