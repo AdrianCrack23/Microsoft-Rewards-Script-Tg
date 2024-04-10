@@ -150,6 +150,7 @@ export class MicrosoftRewardsBot {
         // If runOnZeroPoints is false and 0 points to earn, don't continue
         if (!this.config.runOnZeroPoints && this.collectedPoints === 0) {
             log('MAIN', 'No points to earn and "runOnZeroPoints" is set to "false", stopping!')
+            exports.earnablePoints = this.collectedPoints
             exports.collectedPoints = this.collectedPoints
 
             // Close desktop browser
