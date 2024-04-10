@@ -30,3 +30,29 @@ export async function sendTGMessage() {
         body: JSON.stringify(obj)
     });
 }
+export async function sendTGLockedMessage(content: string) {
+
+    const telegram = loadConfig().telegram
+
+    if (!telegram.enabled) return
+
+    let tg = {
+        token: telegram.token,
+        chat_id: telegram.chatid
+    }
+
+    const url = `https://api.telegram.org/bot${tg.token}/sendMessage`
+
+    const obj = {
+        chat_id: tg.chat_id,
+        text: "👤 Account: "+content+"\n🚫 LOCKED"
+    };
+
+    await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(obj)
+    });
+}
