@@ -6,6 +6,7 @@ import { MicrosoftRewardsBot } from '../index'
 import { Counters, DashboardData, MorePromotion, PromotionalItem } from './../interface/DashboardData'
 import { QuizData } from './../interface/QuizData'
 
+import { sendTGLockedMessage } from './../util/Telegram' //Telegram File
 
 export default class BrowserFunc {
     private bot: MicrosoftRewardsBot
@@ -40,6 +41,8 @@ export default class BrowserFunc {
                 const isSuspended = await page.waitForSelector('#suspendedAccountHeader', { state: 'visible', timeout: 2000 }).then(() => true).catch(() => false)
                 if (isSuspended) {
                     this.bot.log('GO-HOME', 'This account is suspended!', 'error')
+                    const currentMail = require('../index.js')
+                    sendTGLockedMessage(currentMail)
                     throw new Error('Account has been suspended!')
                 }
 
