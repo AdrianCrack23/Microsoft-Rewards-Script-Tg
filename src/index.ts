@@ -115,7 +115,7 @@ export class MicrosoftRewardsBot {
 
             // Mobile Searches
             await this.Mobile(account)
-
+            exports.collectedPoints = this.collectedPoints
             log('MAIN-WORKER', `Completed tasks for account ${account.email}`)
             sendTGMessage();
         }
