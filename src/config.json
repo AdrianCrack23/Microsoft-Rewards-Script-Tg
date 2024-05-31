@@ -31,5 +31,6 @@
         "enabled": true,
         "token": "",
         "chatid": ""
-    }
+    },
+    "cronStartTime": "0 5,11 * * *"
 }
